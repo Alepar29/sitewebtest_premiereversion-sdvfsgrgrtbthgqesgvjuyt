@@ -1,161 +1,141 @@
-// ===== Menu Toggle (Hamburger) =====
-const y = document.getElementById('year');
-if (y) y.textContent = new Date().getFullYear();
-
-// ===== Menu Toggle (Hamburger) =====
-function initMenuToggle() {
-  const btn = document.querySelector('.menu-toggle');
-  const menu = document.getElementById('site-menu');
-  
-  if (!btn || !menu) return;
-
-  // Toggle menu on button click
-  btn.addEventListener('click', () => {
-    const isOpen = menu.classList.toggle('open');
-    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
-
-  // Close menu when a link is clicked
-  menu.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') {
-      menu.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // Close menu on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && menu.classList.contains('open')) {
-      menu.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-  });
-}
-
-
-// ===== Champ téléphone : FR & +33, formatage + limites =====
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('phone');
-  if (!input) return;
-
-  // Téléphone sans indicatif (max 10 chiffres)
-  function formatFR(n) {
-    const digits = n.replace(/\D/g, '').slice(0, 10);
-    const parts = [];
-    for (let i = 0; i < digits.length; i += 2) parts.push(digits.slice(i, i + 2));
-    return parts.join(' ').trim();
-  }
-
-  // Téléphone avec indicatif  (max 9 chiffres après +33, le 0 est supprimé)
-  function formatFRIntlPlus33(v) {
-    let num = v.slice(3).replace(/\D/g, ''); // après "+33"
-    if (num.startsWith('0')) num = num.slice(1); // FR : on enlève le 0 initial
-    num = num.slice(0, 9); // 1 + 8 chiffres (ex: 6 12 34 56 78)
-
-    let out = '+33';
-    if (num.length > 0) {
-      out += ' ' + num[0]; // premier chiffre (ex: 6)
-      const rest = num.slice(1);
-      const pairs = [];
-      for (let i = 0; i < rest.length; i += 2) pairs.push(rest.slice(i, i + 2));
-      if (pairs.length) out += ' ' + pairs.join(' ');
-    }
-    return out;
-  }
-
-  // Fallback générique pour autres +XX (groupes de 2 après l’indicatif)
-  function formatIntlGeneric(v) {
-    const clean = v.replace(/[^\d+]/g, '').replace(/(?!^\+)\+/g, '');
-    const m = clean.match(/^\+(\d{0,3})(\d*)$/) || [];
-    const cc = m[1] || '';
-    let num = (m[2] || '').slice(0, 12);
-    num = num.replace(/(\d{2})(?=\d)/g, '$1 ');
-    return '+' + cc + (num ? ' ' + num : '');
-  }
-
-  input.addEventListener('input', (e) => {
-    let raw = e.target.value;
-    // garder uniquement chiffres et un seul + en tête
-    raw = raw.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '');
-
-    if (raw.startsWith('+')) {
-      // cas FR attendu
-      if (raw.startsWith('+33')) {
-        e.target.value = formatFRIntlPlus33(raw);
-      } else {
-        // autre indicatif : format générique
-        e.target.value = formatIntlGeneric(raw);
-      }
-    } else {
-      // numéro national FR
-      e.target.value = formatFR(raw);
-    }
-  });
-});
-
-// Validation stricte de l'e-mail (vrai domaine + extension correcte)
-document.addEventListener('DOMContentLoaded', () => {
-  const email = document.getElementById('email');
-  if (!email) return;
-
-  // Exige : au moins un point après le @, et extension >= 2 caractères, != "co" seul
-  const re = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,10}(\.[A-Za-z]{2,10})?$/;
-
-  function validateEmail() {
-    const value = email.value.trim();
-
-    if (value === '') {
-      email.setCustomValidity('');
-      return;
-    }
-
-    // Vérifie le motif général
-    if (re.test(value)) {
-      // Rejette les ".co" simples (mais garde .co.uk)
-      const lower = value.toLowerCase();
-      if (lower.endsWith('.co') && !lower.endsWith('.co.uk')) {
-        email.setCustomValidity("Extension '.co' incomplète. Utilisez .com, .fr, .org, etc.");
-      } else {
-        email.setCustomValidity('');
-      }
-    } else {
-      email.setCustomValidity('Adresse e-mail incomplète (ex. nom@domaine.fr).');
-    }
-  }
-
-  ['input', 'blur', 'change'].forEach(evt =>
-    email.addEventListener(evt, validateEmail)
-  );
-  validateEmail();
-});
-
-// === Partials loader (header + footer) ===
+// ============================
+//  Chargement des partials
+// ============================
 async function loadPartial(selector, url) {
   const host = document.querySelector(selector);
   if (!host) return;
-  const res = await fetch(url, { cache: "no-cache" });
-  host.innerHTML = await res.text();
+
+  try {
+    const res = await fetch(url, { cache: "no-cache" });
+    if (!res.ok) throw new Error(res.statusText);
+    host.innerHTML = await res.text();
+  } catch (err) {
+    console.error(`Erreur lors du chargement de ${url} :`, err);
+  }
 }
 
+// ============================
+//  Menu burger (mobile)
+// ============================
+function initMenuToggle() {
+  const btn = document.querySelector(".menu-toggle");
+  const menu = document.getElementById("site-menu");
+
+  if (!btn || !menu) return;
+
+  // Ouverture / fermeture
+  btn.addEventListener("click", () => {
+    const isOpen = menu.classList.toggle("open");
+    btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+
+  // Fermeture quand on clique sur un lien du menu
+  menu.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") {
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Fermeture sur touche Echap
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("open")) {
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+// ============================
+//  Lien actif dans la nav
+// ============================
+function initActiveMenuLink() {
+  const current = document.documentElement.getAttribute("data-page");
+  if (!current) return;
+
+  document
+    .querySelectorAll(`nav.menu a[data-page="${current}"]`)
+    .forEach((a) => a.classList.add("active"));
+}
+
+// ============================
+//  Année dynamique dans le footer
+// ============================
+function initYear() {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+}
+
+// ============================
+//  Formatage du téléphone (FR)
+// ============================
+function formatFrenchPhone(value) {
+  if (!value) return "";
+
+  let v = value.replace(/\s+/g, "");
+  // On garde + pour pouvoir détecter +33
+  const hasPlus = v.startsWith("+");
+  v = v.replace(/[^\d+]/g, "");
+
+  // +33X XX XX XX XX
+  if (v.startsWith("+33")) {
+    let digits = v.replace("+33", "").replace(/\D/g, "");
+    digits = digits.slice(0, 9); // 9 chiffres après +33
+
+    let out = "+33";
+    if (digits.length > 0) out += " " + digits.slice(0, 1);
+    if (digits.length > 1) out += " " + digits.slice(1, 3);
+    if (digits.length > 3) out += " " + digits.slice(3, 5);
+    if (digits.length > 5) out += " " + digits.slice(5, 7);
+    if (digits.length > 7) out += " " + digits.slice(7, 9);
+    return out.trim();
+  }
+
+  // 0X XX XX XX XX
+  if (v.startsWith("0")) {
+    let digits = v.replace(/\D/g, "");
+    digits = digits.slice(0, 10); // 10 chiffres
+
+    let out = "";
+    if (digits.length > 0) out += digits.slice(0, 2);
+    if (digits.length > 2) out += " " + digits.slice(2, 4);
+    if (digits.length > 4) out += " " + digits.slice(4, 6);
+    if (digits.length > 6) out += " " + digits.slice(6, 8);
+    if (digits.length > 8) out += " " + digits.slice(8, 10);
+    return out.trim();
+  }
+
+  // Fallback international simple : on enlève tout sauf chiffres
+  let digits = v.replace(/\D/g, "");
+  if (hasPlus) digits = "+" + digits;
+  return digits.slice(0, 16);
+}
+
+function initPhoneField() {
+  const tel = document.getElementById("telephone");
+  if (!tel) return;
+
+  const handler = () => {
+    tel.value = formatFrenchPhone(tel.value);
+  };
+
+  tel.addEventListener("input", handler);
+  tel.addEventListener("blur", handler);
+}
+
+// ============================
+//  Initialisation globale
+// ============================
 document.addEventListener("DOMContentLoaded", async () => {
-  // Charge header & footer
+  // Charge header + footer (si présents)
   await Promise.all([
     loadPartial("#header-placeholder", "assets/header.html"),
     loadPartial("#footer-placeholder", "assets/footer.html"),
   ]);
+
+  // Tout ce qui dépend du header/footer doit venir APRÈS
   initMenuToggle();
-
-  // Active le bon onglet du menu selon l'attribut data-page sur <html>
-  const current = document.documentElement.getAttribute("data-page");
-  if (current) {
-    document
-      .querySelectorAll(`nav.menu a[data-page="${current}"]`)
-      .forEach(a => a.classList.add("active"));
-  }
-
-  // Année dynamique dans le footer
-  const yearSpan = document.getElementById("year");
-  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+  initActiveMenuLink();
+  initYear();
+  initPhoneField();
 });
-
-menu.classList.toggle("open");
