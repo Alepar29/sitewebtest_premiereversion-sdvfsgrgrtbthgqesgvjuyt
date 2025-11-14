@@ -480,3 +480,7 @@ footer a {
 .day.current-day span:first-child {
   font-weight: 700;
 }
+
+.day.current-day span:last-child {
+  font-weight: 700;
+}
