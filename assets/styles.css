@@ -524,13 +524,3 @@ footer a:hover {
     z-index: 3000;
   }
 }
-
-/* Forcer l'image du hero sur mobile si elle est masquée par d'autres règles */
-@media (max-width: 768px) {
-  .hero {
-    background-image: linear-gradient(to right, rgba(10, 35, 66, 0.70), rgba(10, 35, 66, 0.10)), url("Themis.png");
-    background-size: cover;
-    background-position: center right;
-    background-repeat: no-repeat;
-  }
-}
