@@ -191,8 +191,8 @@ nav.menu a.btn-primary:hover {
   .hero {
     /* keep the background on mobile with better sizing */
     background-image: linear-gradient(to right, rgba(10, 35, 66, 0.80), rgba(10, 35, 66, 0.70)), url("Themis.png");
-    background-size: contain; /* preserve image proportions */
-    background-position: center right; /* position on the right side */
+    background-size: auto 100%; /* scale height to 100%, width auto to preserve aspect ratio */
+    background-position: right center; /* push image fully to the right */
     background-repeat: no-repeat;
     min-height: 55vh;
   }
