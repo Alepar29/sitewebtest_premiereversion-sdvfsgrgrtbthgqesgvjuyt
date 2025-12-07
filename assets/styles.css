@@ -524,3 +524,15 @@ footer a:hover {
     z-index: 3000;
   }
 }
+
+/* Alignement des encadrés contact en bas et carte pleine largeur */
+main.section.container > .grid-2 {
+  align-items: flex-end; /* aligne les deux colonnes en bas */
+}
+
+.map {
+  width: 100%; /* prend toute la largeur du conteneur */
+  height: 380px; /* hauteur augmentée pour couvrir les deux colonnes */
+  border: none;
+  border-radius: var(--radius);
+}
