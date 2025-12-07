@@ -1,232 +1,139 @@
-/* ========================================== 
-   ================ HEADER ==================
-   ========================================== */
+/* Global Styles */
+:root{--brand:#0B1D3A;--gold:#caa24a;--text:#0B1D3A;--muted:#5b5b63;--bg:#f7f8fb;--card:#ffffff;--border:#e7eaf2;--radius:14px;--shadow:0 8px 30px rgba(0,0,0,.06)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial;color:var(--text);background:var(--bg);line-height:1.6}
+img{max-width:100%;display:block}
+.container{max-width:1100px;margin:auto;padding:0 20px}
+a{text-decoration:none;color:var(--brand)}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.7rem 1rem;border-radius:999px;border:1px solid transparent;font-weight:600}
+.btn-primary{background:var(--gold);color:#0b1d3a}
+.btn-outline{border-color:var(--brand);color:var(--brand);background:transparent}
+@media (max-width:600px){.btn{padding:.8rem 1.2rem;min-height:44px;min-width:44px}}
 
-/* ---------- Variables & reset ---------- */
+.brand--header,
+.brand--header:link,
+.brand--header:visited { color: #CAA24A; }
+.brand--header:hover { color: #CAA24A; }
 
-:root {
-  --brand: #0a2342;     /* Bleu profond */
-  --gold: #d4af37;      /* Doré */
-  --radius: 14px;       /* Arrondis */
-  --shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
+/* ===== Header compact avec onglets ===== */
+header{position:sticky;top:0;background:#0B1D3A;border-bottom:1px solid var(--border);z-index:40;backdrop-filter:saturate(130%) blur(6px)}
+.nav{height:64px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.55rem;color:var(--brand);font-weight:800}
+.brand img{height:36px;width:auto}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Inter, Arial, sans-serif;
-  color: #333;
-  background: #fff;
-  line-height: 1.6;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-a {
-  color: var(--brand);
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-  font-family: inherit;
-}
-
-/* ---------- Layout de base ---------- */
-
-.container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* ---------- Header global ---------- */
-
-header {
-  background: var(--brand);
-  color: white;
-  padding: 10px 0;
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 3000;
-}
-
-/* Contenu principal du header : logo + nom + menu/burger */
-header > .container,
-header .header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-}
-
-/* Bloc logo + texte */
-header .logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* Alignement et taille du bloc brand (utilisé dans header.html) */
-header .brand,
-header .brand--header {
-  display: flex;
-  align-items: center; /* texte à droite du logo */
-  gap: 0.6rem;
-  text-decoration: none;
-}
-
-header .brand span {
-  font-size: 1rem;     /* même taille que les onglets */
-  font-weight: 500;
-  color: var(--gold);
-  line-height: 1;
-  white-space: nowrap;
-}
-
-/* Légère remontée optionnelle du logo vers le coin supérieur gauche */
-header .brand img {
-  transform: translateY(-4px);
-}
-
-/* Image du logo (marque/brand dans header) */
-header .logo img,
-header .brand img,
-header .brand--header img {
-  height: auto;
-  max-height: 32px;       /* taille réduite demandée */
-  width: auto;
-  display: block;
-  object-fit: contain;
-}
-
-/* Texte du nom (Maître Marie Chareyron) */
-header span,
-header strong {
-  color: var(--gold);
-}
-
-header .brand-title,
-header .site-title {
-  color: var(--gold);
-  font-weight: 600;
-  font-size: 1.2rem;
-  white-space: nowrap;
-}
-
-/* ---------- Menu desktop ---------- */
-
-nav.menu {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-nav.menu a {
-  color: var(--gold);
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-nav.menu a.active {
-  border-bottom: 2px solid var(--gold);
-}
-
-/* ---------- Bouton "Prendre RDV" ---------- */
-
-.btn-header {
-  background: var(--gold);
-  color: var(--brand);
-  font-weight: 700;
-  padding: 10px 22px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-/* ---------- Burger (mobile) ---------- */
-
+/* ===== Menu Toggle (Hamburger) ===== */
 .menu-toggle {
   display: none;
-  width: 34px;
-  height: 34px;
+  background: transparent;
   border: none;
-  border-radius: 8px;
-  background: var(--gold);
-  padding: 0;
+  color: var(--gold);
+  font-size: 1.5rem;
   cursor: pointer;
+  padding: 8px 4px;
+  line-height: 1;
+  margin-right: 8px;
+  z-index: 50;
 }
 
-/* Lignes internes du burger */
-.menu-toggle::before,
-.menu-toggle::after {
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 20px;
+  position: relative;
+}
+
+.hamburger::before,
+.hamburger::after,
+.hamburger {
   content: "";
   display: block;
-  width: 22px;
-  height: 3px;
-  background: var(--brand);
-  margin: 6px auto;
+  height: 2px;
+  background: currentColor;
+  transition: all 0.3s ease;
 }
 
-/* ---------- Header : responsive mobile ---------- */
+.hamburger::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
 
-@media (max-width: 768px) {
+.hamburger::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
-  header {
-    padding: 8px 0;
-  }
+.menu-toggle[aria-expanded="true"] .hamburger {
+  background: transparent;
+}
 
-  header > .container,
-  header .header-inner {
-    gap: 0.75rem;
-  }
+.menu-toggle[aria-expanded="true"] .hamburger::before {
+  transform: rotate(45deg);
+  top: 9px;
+}
 
-  /* Logo réduit sur mobile */
-  header .logo img,
-  header .brand img,
-  header .brand--header img {
-    height: auto;
-    max-height: 24px;
-  }
+.menu-toggle[aria-expanded="true"] .hamburger::after {
+  transform: rotate(-45deg);
+  bottom: 9px;
+}
 
-  header .brand-title,
-  header .site-title {
-    font-size: 1rem;
-  }
+/* ===== Header compact avec onglets (version modifiée) ===== */
+nav.menu a {
+  position: relative;
+  padding: .35rem .25rem;
+  color: #CAA24A; /* Doré avocat */
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  text-decoration: none;
+  transition: color 0.3s, border-color 0.3s;
+}
 
-  /* Afficher le burger, masquer le menu inline */
+/* Effet survol ou page active */
+nav.menu a:hover,
+nav.menu a.active {
+  color: #ffffff;
+  border-bottom-color: #CAA24A;
+}
+
+/* Exception pour le bouton “Prendre RDV” */
+nav.menu a.btn-primary {
+  background-color: #CAA24A;
+  color: #0B1D3A !important; /* Bleu profond */
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+}
+
+nav.menu a.btn-primary:hover {
+  background-color: #e5c868;
+  color: #0B1D3A !important;
+}
+
+/* ===== Mobile : menu hamburger responsive ===== */
+@media (max-width: 900px) {
   .menu-toggle {
-    display: block;
-    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   nav.menu {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background: var(--brand);
     display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--brand);
     flex-direction: column;
-    padding: 20px 0 25px;
-    gap: 18px;
-    border-top: 1px solid rgba(255,255,255,0.2);
-    text-align: left;
-    z-index: 2000;
+    gap: 8px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 40;
   }
 
   nav.menu.open {
@@ -234,262 +141,395 @@ nav.menu a.active {
   }
 
   nav.menu a {
-    color: var(--gold);
-    font-size: 1.2rem;
-    padding: 8px 30px;
+    padding: 12px 8px;
     display: block;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+    padding-left: 12px;
+    transition: all 0.2s ease;
   }
 
-  /* Bouton RDV en bas du menu mobile */
-  nav.menu .btn-header {
-    width: calc(100% - 40px);
-    margin: 10px 20px 0;
+  nav.menu a:hover,
+  nav.menu a.active {
+    border-left-color: #CAA24A;
+    background: rgba(202, 162, 74, 0.1);
+  }
+
+  nav.menu a.btn-primary {
+    width: 100%;
     text-align: center;
-    font-size: 1.1rem;
+    border-left: none;
+    padding: 12px 16px;
+    margin-top: 8px;
   }
 }
 
-/* ---------- Contraste bouton header (prioritaire) ---------- */
 
-.btn-header,
-a.btn-header,
-nav.menu .btn-header,
-header a.btn-header,
-header button.btn-header {
-  background: var(--gold);
-  color: var(--brand) !important;
-  font-weight: 700;
-  border: 2px solid rgba(0,0,0,0.06);
-  box-shadow: var(--shadow);
-}
-
-/* Si le bouton "Prendre RDV" est une .btn-primary (dans vos fichiers), cibler explicitement */
-nav.menu a.btn-primary,
-header a.btn-primary {
-  background: var(--gold) !important;
-  color: var(--brand) !important; /* texte bleu sur fond doré */
-  font-weight: 500; /* même poids que les onglets */
-  padding: 8px 16px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  font-size: 1rem; /* même taille que les onglets */
-}
-
-/* Assurer le contraste lorsque le bouton est un lien dans le menu */
-nav.menu a.btn-header {
-  color: var(--brand) !important;
-  background: var(--gold);
-}
-
-.btn-header:hover,
-.btn-header:focus {
-  filter: brightness(0.95);
-  text-decoration: none;
-}
-
-/* Header-specific button sizing & explicit color to avoid overrides */
-header .btn-header,
-header a.btn-header,
-header button.btn-header {
-  color: var(--brand) !important;
-  padding: 6px 12px;
-  font-size: 0.95rem;
-  line-height: 1;
-}
-
-/* Forcer couleur bleue sur lien bouton dans menu mobile/desktop */
-nav.menu a.btn-header,
-header a.btn-header {
-  color: var(--brand) !important;
-}
-
-/* Focus visible pour accessibilité */
-.btn-header:focus,
-header a.btn-header:focus {
-  outline: 3px solid rgba(10,35,66,0.12);
-  outline-offset: 2px;
-}
-
-
-
-/* ========================================== 
-   ================ PAGES ===================
-   ========================================== */
-
-/* ---------- Sections génériques ---------- */
-
-.section {
-  padding: 60px 0;
-}
-
-h1, h2, h3 {
-  color: var(--brand);
-  font-weight: 700;
-}
-
-h1 {
-  font-size: 2.4rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 0.8rem;
-}
-
-p {
-  font-size: 1.1rem;
-}
-
-/* ---------- Boutons généraux ---------- */
-
-.btn {
-  padding: 14px 26px;
-  border-radius: var(--radius);
-  font-weight: 600;
-  display: inline-block;
-  transition: 0.2s;
-}
-
-.btn-primary {
-  background: var(--gold);
-  color: var(--brand);
-}
-
-.btn-primary:hover {
-  filter: brightness(1.05);
-}
-
-.btn-outline {
-  border: 2px solid var(--brand);
-  color: var(--brand);
-}
-
-.btn-outline:hover {
-  background: var(--brand);
-  color: white;
-}
-
-/* ---------- Cards ---------- */
-
-.card {
-  padding: 25px;
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-/* ---------- Hero home ---------- */
-
+/* ---------- Hero accueil ---------- */
 .hero {
-  padding: 60px 0 80px;
+  position: relative;
+  min-height: 70vh; /* hauteur réelle pour afficher la statue */
+  display: flex;
+  align-items: center;
+  padding: 100px 0;
+
+  background-image:
+    linear-gradient(to right, rgba(10, 35, 66, 0.70), rgba(10, 35, 66, 0.10)),
+    url("Themis.png");
+
+  background-size: cover;           /* montre l'image entière (ou presque) */
+  background-position: center right; /* place Thémis à droite */
+  background-repeat: no-repeat;
+}
+
+/* Inline image fallback for mobile: hidden on desktop, shown on small screens */
+.hero-img {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    /* keep the background on mobile but favour the statue focal point */
+    background-image: linear-gradient(to right, rgba(10, 35, 66, 0.70), rgba(10, 35, 66, 0.10)), url("Themis.png");
+    background-size: cover;
+    background-position: 60% center; /* shift focal point slightly left to reveal statue */
+    min-height: 60vh;
+  }
+
+  /* hide the inline fallback to avoid double images when background is available */
+  .hero-img {
+    display: none;
+  }
+
+  .hero .wrap { z-index: 2; }
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* n'interfère pas */
+}
+
+.hero .wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.hero h1 {
+  color: #fff;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #e9edf5;
+  font-size: 1.05rem;
+  margin-bottom: 18px;
 }
 
 .hero .cta {
-  margin-top: 20px;
   display: flex;
-  gap: 15px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-/* ---------- Grilles ---------- */
 
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+/* Sections */
+.section{padding:48px 0}
+.section h2{font-size:clamp(22px,3vw,30px);color:var(--brand);margin:0 0 8px}
+.lead{color:var(--muted)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:900px){.grid-2{grid-template-columns:1fr}}
+@media (max-width:600px){.section{padding:32px 0}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+@media (max-width:600px){.card{padding:12px}}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:900px){.features{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.features{grid-template-columns:1fr}}
+
+
+/* ===== Formulaire élégant ===== */
+form.form{display:grid;gap:14px}
+.form .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:720px){.form .row-2{grid-template-columns:1fr}}
+@media (max-width:600px){.form .row-2{grid-template-columns:1fr};form.form{gap:12px}}
+.input{display:flex;flex-direction:column;gap:6px}
+.input label{font-weight:600;color:var(--brand)}
+.input input,.input textarea,.input select{appearance:none;border:1px solid var(--border);background:#fff;border-radius:12px;padding:12px 14px;font:inherit;transition:border-color .2s, box-shadow .2s}
+@media (max-width:600px){.input input,.input textarea,.input select{padding:14px 16px;font-size:16px}}
+.input textarea{min-height:140px;resize:vertical}
+.input input:focus,.input textarea:focus,.input select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(11,29,58,.08)}
+.input small{color:var(--muted)}
+.form .actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+@media (max-width:600px){.form .actions{flex-direction:column}}
+.btn-primary:hover{filter:brightness(.95)}
+.notice{padding:10px 12px;background:#fff7e6;border:1px solid #ffe2a8;border-radius:10px;color:#8a6b1f}
+
+
+/* Footer */
+footer {
+  background: #0B1D3A;
+  color: #E6EDF7;
+  margin-top: 40px;
+  font-size: 0.95rem;
+  padding: 18px 0;
 }
 
-.features {
-  display: grid;
-  gap: 20px;
+footer .foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* ---------- Formulaires ---------- */
+footer a {
+  color: #E6EDF7; /* même couleur que le texte */
+  text-decoration: none;
+  margin-left: 12px;
+}
 
-form input,
-form textarea,
-form select {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0 14px 0;
-  border-radius: var(--radius);
-  border: 1px solid #ccc;
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer strong {
   font-size: 1rem;
+  color: #FFFFFF;
 }
 
-form textarea {
-  min-height: 130px;
+footer .foot-right span {
+  margin-right: 10px;
 }
 
-/* ---------- Responsive PAGES ---------- */
+/* Centré sur petits écrans */
+@media (max-width: 700px) {
+  footer {
+    padding: 16px 0;
+    font-size: 0.9rem;
+  }
 
-@media (max-width: 900px) {
-  .grid-2 {
-    grid-template-columns: 1fr;
+  footer .foot {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+
+  footer .foot a {
+    margin: 4px;
+    display: inline-block;
+  }
+
+  footer strong {
+    font-size: 0.95rem;
   }
 }
 
 
 
-/* ========================================== 
-   ================ FOOTER ==================
-   ========================================== */
-
-footer {
-  background: var(--brand);
-  color: white;
-  padding: 40px 0;
-  margin-top: 60px;
-  text-align: center;
+/* ===== Case RGPD stylée ===== */
+.input.rgpd label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  line-height: 1.5;
+  user-select: none;
 }
 
-footer a {
-  color: var(--gold);
+.input.rgpd input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--brand);
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.input.rgpd input[type="checkbox"]:checked {
+  background-color: var(--gold);
+  border-color: var(--gold);
+}
+
+.input.rgpd input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 0;
+  left: 4px;
+  font-size: 15px;
+  color: #fff;
+  font-weight: bold;
+}
+
+a.link {
+  text-decoration: underline;
+  color: var(--brand);
   font-weight: 500;
 }
 
+a.link:hover {
+  color: var(--gold);
+}
 
-/* ========================================== 
-   ========== CONTACT / HORAIRES ===========
-   ========================================== */
+/* Tick vert centré quand le champ est valide */
+.input { position: relative; }
 
-/* Tableau d'horaires aligné en colonnes */
+/* INPUT & TEXTAREA : ✓ en arrière-plan, centré à droite */
+.input input:required:valid:not([type="checkbox"]),
+.input select:required:valid,
+.input textarea:required:valid {
+  border-color: #6fcf97;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2327ae60' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;   /* centré verticalement */
+  background-size: 18px 18px;
+  padding-right: 36px; /* espace pour le ✓ */
+}
+
+/* SELECT : ✓ décalé pour ne pas chevaucher la flèche native */
+.input select:required:valid {
+  border-color: #6fcf97;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2327ae60' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 36px center;   /* laisse la flèche à droite */
+  background-size: 18px 18px;
+  padding-right: 54px;
+}
+
+/* Rouge discret si focus + invalide (optionnel) */
+.input :focus:invalid {
+  border-color: #e74c3c;
+}
+
+/* Mention des champs obligatoires */
+.required-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+footer a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.85em;
+  color: var(--muted);
+}
+footer a:hover {
+  color: var(--gold);
+}
+
+/* ===== Tableau des horaires aligné ===== */
+.hours-title {
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #0B1D3A;
+}
+
 .hours-table {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 12px 20px;
-  margin-top: 12px;
-  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif;
 }
 
-.day {
-  display: contents; /* chaque child span sera un cell dans la grid */
+.hours-table .day {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px solid #e7eaf2;
 }
 
-.day span:first-child {
-  text-align: left;
-  font-weight: 400;
+.hours-table .day span:first-child {
+  color: #0B1D3A;
+  width: 45%;
 }
 
-.day span:last-child {
+.hours-table .day span:last-child {
   text-align: right;
+  color: #333;
+  width: 55%;
 }
 
-/* Jour actuel de la semaine en gras */
-.day.current-day span:first-child {
+.hours-table .today {
   font-weight: 700;
+  color: #0B1D3A;
 }
 
-.day.current-day span:last-child {
-  font-weight: 700;
+/* ============================
+   NAVIGATION MOBILE
+   ============================ */
+@media (max-width: 768px) {
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+  }
+
+  nav.menu {
+    position: absolute;
+    top: 70px; /* hauteur du header */
+    left: 0;
+    width: 100%;
+    background: var(--brand); /* bleu */
+    display: none; /* caché par défaut */
+    flex-direction: column;
+    padding: 20px 0;
+    gap: 20px;
+    z-index: 2000;
+  }
+
+  nav.menu.open {
+    display: flex; /* affiché quand burger = open */
+  }
+
+  nav.menu a {
+    color: var(--gold);
+    font-size: 1.2rem;
+    padding: 5px 20px;
+    display: block;
+  }
+
+  /* Bouton RDV */
+  .btn-header {
+    margin: 10px 20px 0 20px;
+    width: calc(100% - 40px);
+    text-align: center;
+  }
+
+  /* Le logo reste à gauche */
+  .logo {
+    height: 45px;
+  }
+
+  /* Position du burger */
+  .burger {
+    display: block;
+    position: relative;
+    z-index: 3000;
+  }
 }
 
-/* Carte Google Maps plus grande */
-.map {
-  width: 100%;
-  height: 290px;
-  border-radius: var(--radius);
-  border: none;
-  margin-top: 20px;
+/* Forcer l'image du hero sur mobile si elle est masquée par d'autres règles */
+@media (max-width: 768px) {
+  .hero {
+    background-image: linear-gradient(to right, rgba(10, 35, 66, 0.70), rgba(10, 35, 66, 0.10)), url("Themis.png");
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+  }
 }
