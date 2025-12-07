@@ -177,8 +177,8 @@ nav.menu a.btn-primary:hover {
     linear-gradient(to right, rgba(10, 35, 66, 0.70), rgba(10, 35, 66, 0.10)),
     url("Themis.png");
 
-  background-size: auto 100%;        /* adapt to viewport height, preserve aspect ratio */
-  background-position: right center; /* place image to the right */
+  background-size: cover;            /* couvre uniformément */
+  background-position: right center; /* place l'image à droite */
   background-repeat: no-repeat;
 }
 
